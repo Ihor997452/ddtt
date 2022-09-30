@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav style="margin-top: 20px">
@@ -24,6 +24,7 @@
       <c:set var="end" value="${requestScope.size}"/>
     </c:if>
 
+    <c:if test="${requestScope.size != 0}">
     <c:forEach var="i" begin="${begin}" end="${end}">
       <c:choose>
         <c:when test="${page == i}">
@@ -39,6 +40,7 @@
         </c:otherwise>
       </c:choose>
     </c:forEach>
+    </c:if>
 
     <c:if test="${page != requestScope.size}">
       <li style="cursor: pointer;" class="page-item">

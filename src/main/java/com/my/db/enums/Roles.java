@@ -2,8 +2,7 @@ package com.my.db.enums;
 
 public enum Roles {
     STUDENT,
-    TEACHER,
-    ADMIN;
+    TEACHER;
 
     public static Roles evaluate(String id) {
         return evaluate(Integer.parseInt(id));

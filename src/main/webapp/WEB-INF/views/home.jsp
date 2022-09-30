@@ -8,55 +8,64 @@
 </head>
 <body>
 
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button class="btn btn-dark" style="margin-top: 20px" type="submit">
-            Log Out
-        </button>
-    </form>
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="width: 100%">
 
-    <c:if test="${sessionScope.loggedUser.role.ordinal() == 1}">
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#newClassModal">
-            New Class
-        </button>
-    </c:if>
-
-    <c:if test="${sessionScope.loggedUser.role.ordinal() == 0}">
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addClassModal">
-            Enroll
-        </button>
-    </c:if>
-    <h1>Your Classes</h1>
-
-    <c:forEach items="${sessionScope.classes}" var="clazz">
-        <div style="border: black 2px">
-            <h2>Class name: ${clazz.name}</h2>
-            <h3>Class Description: ${clazz.description}</h3>
-            <a href="${pageContext.request.contextPath}/tasks?id=${clazz.id}">View Class Tasks</a>
-            <a href="${pageContext.request.contextPath}/students?id=${clazz.id}">View Class Students</a>
-            <p>Teacher: "${sessionScope.loggedUser.name} ${sessionScope.loggedUser.surname}"</p>
+        <div class="d-flex flex-row justify-content-between" style="width: 100%;">
+            <form action="${pageContext.request.contextPath}/logout" method="post">
+                <button class="btn btn-dark" style="margin-top: 20px" type="submit">
+                    Log Out
+                </button>
+            </form>
 
             <c:if test="${sessionScope.loggedUser.role.ordinal() == 1}">
-                <form method="post" action="${pageContext.request.contextPath}/teacher/deleteClass">
-                    <button type="submit" class="btn btn-dark">
-                        Delete Class
-                    </button>
-                    <input type="hidden" name="class-id" id="class-id" value="${clazz.id}">
-                </form>
-            </c:if>
 
+                <button style="margin: 20px" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#newClassModal">
+                    New Class
+                </button>
+            </c:if>
 
             <c:if test="${sessionScope.loggedUser.role.ordinal() == 0}">
-                <form method="post" action="${pageContext.request.contextPath}/student/dropClass">
-                    <button type="submit" class="btn btn-dark">
-                        Drop Class
-                    </button>
-                    <input type="hidden" name="class-id" id="class-id-d" value="${clazz.id}">
-                </form>
+                <button style="margin: 20px;" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addClassModal">
+                    Enroll
+                </button>
             </c:if>
         </div>
-    </c:forEach>
 
-    <jsp:include page="fragments/pagination.jsp"/>
+        <h1>Your Classes</h1>
+
+        <c:forEach items="${sessionScope.classes}" var="clazz">
+            <div class="card" style="width: 40rem; margin-bottom: 20px">
+                <div class="card-body">
+                    <h3 class="card-title">${clazz.name}</h3>
+                    <h4 class="card-text text-muted" style="margin-bottom: 20px;">${clazz.description}</h4>
+                    <a class="card-link" href="${pageContext.request.contextPath}/tasks?id=${clazz.id}">View Class Tasks</a>
+                    <a class="card-link" href="${pageContext.request.contextPath}/students?id=${clazz.id}">View Class Students</a>
+
+                    <c:if test="${sessionScope.loggedUser.role.ordinal() == 1}">
+                        <form method="post" action="${pageContext.request.contextPath}/teacher/deleteClass">
+                            <button type="submit" class="btn btn-dark" style="margin-top: 20px;">
+                                Delete Class
+                            </button>
+                            <input type="hidden" name="class-id" id="class-id" value="${clazz.id}">
+                        </form>
+                    </c:if>
+
+                    <c:if test="${sessionScope.loggedUser.role.ordinal() == 0}">
+                        <form method="post" action="${pageContext.request.contextPath}/student/dropClass">
+                            <button type="submit" class="btn btn-dark" style="margin-top: 20px;">
+                                Drop Class
+                            </button>
+                            <input type="hidden" name="class-id" id="class-id-d" value="${clazz.id}">
+                        </form>
+                    </c:if>
+                </div>
+
+            </div>
+        </c:forEach>
+
+        <jsp:include page="fragments/pagination.jsp"/>
+    </div>
+
     <jsp:include page="fragments/newClassModal.jsp"/>
     <jsp:include page="fragments/addClassModal.jsp"/>
     <jsp:include page="fragments/messages.jsp"/>

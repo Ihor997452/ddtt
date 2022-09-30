@@ -29,7 +29,7 @@
             Cancel
           </button>
           <button type="submit" form="addStudentForm" class="btn btn-dark">
-            Create
+            Add
           </button>
         </div>
       </div>

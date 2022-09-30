@@ -1,5 +1,6 @@
 package com.my.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class EmailSender {
     private final MailSender mailSender;
 
+    @Autowired
     public EmailSender(MailSender mailSender) {
         this.mailSender = mailSender;
     }

@@ -28,7 +28,7 @@
             Cancel
           </button>
           <button type="submit" form="addClassForm" class="btn btn-dark">
-            Create
+            Enroll
           </button>
         </div>
       </div>

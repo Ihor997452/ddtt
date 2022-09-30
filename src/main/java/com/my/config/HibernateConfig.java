@@ -23,8 +23,8 @@ public class HibernateConfig {
                 Properties properties = new Properties();
                 properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                 properties.put(Environment.URL, "jdbc:mysql://localhost:3306/uni");
-                properties.put(Environment.USER, "root");
-                properties.put(Environment.PASS, "cleacl123");
+                properties.put(Environment.USER, "your_user");
+                properties.put(Environment.PASS, "your_pass");
                 properties.put(Environment.SHOW_SQL, "true");
                 properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 

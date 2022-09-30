@@ -29,6 +29,22 @@
       <br>
       <h1>Students</h1>
 
+      <form action="${pageContext.request.contextPath}/students" method="get"
+            class="d-flex d-flex justify-content-around align-items-end"
+            style="width: 40rem">
+          <div class="form-group" style="width: 100%; margin-right: 15px">
+              <label for="search">
+                  Search
+              </label>
+              <input type="text" value="${param.search}" class="form-control" name="search" id="search">
+              <input type="hidden" value="${sessionScope.clazz.id}" class="form-control" name="id" id="id">
+          </div>
+
+          <button type="submit" class="btn btn-dark">
+                   Search
+          </button>
+      </form>
+
       <c:forEach items="${sessionScope.students}" var="student">
           <div class="card" style="width: 40rem; margin-bottom: 20px">
               <div class="card-body">

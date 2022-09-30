@@ -11,4 +11,6 @@ public interface ClassDao extends AbstractDao<Class> {
     List<Class> getTeacherClasses(int teacherId);
     List<Task> getClassTasks(int classId);
     List<User> getClassStudents(int classId);
+    List<Class> searchTeacherClasses(String name);
+    List<Class> searchTeacherClasses(int teacherId, String name);
 }

@@ -1,6 +1,7 @@
 package com.my.controller;
 
 import com.my.db.dao.clazz.ClassDao;
+import com.my.db.dao.task.TaskDao;
 import com.my.db.dao.user.UserDao;
 import com.my.db.entity.Class;
 import com.my.db.entity.Task;
@@ -18,17 +19,27 @@ import java.util.stream.Collectors;
 public class GetController {
     private final ClassDao classDao;
     private final UserDao userDao;
+    private final TaskDao taskDao;
 
-    public GetController(ClassDao classDao, UserDao userDao) {
+    public GetController(ClassDao classDao, UserDao userDao, TaskDao taskDao) {
         this.classDao = classDao;
         this.userDao = userDao;
+        this.taskDao = taskDao;
     }
 
     @GetMapping("/")
     public String homeGet(HttpSession session, HttpServletRequest request) {
         User loggedUser = (User) session.getAttribute("loggedUser");
+        String search = request.getParameter("search");
+
         if (loggedUser != null && loggedUser.getRole() == Roles.STUDENT) {
-            List<Class> classes = userDao.getUserClasses(loggedUser.getId());
+            List<Class> classes;
+
+            if (search != null && !search.trim().equals("")) {
+                classes = userDao.searchStudentClassesByName(loggedUser.getId(), search);
+            } else {
+                classes = userDao.getUserClasses(loggedUser.getId());
+            }
 
             int size = getPaginationSize(classes);
             int page = getPaginationPage(request, size);
@@ -43,7 +54,13 @@ public class GetController {
         }
 
         if (loggedUser != null && loggedUser.getRole() == Roles.TEACHER) {
-            List<Class> classes = classDao.getTeacherClasses(loggedUser.getId());
+            List<Class> classes;
+
+            if (search != null && !search.trim().equals("")) {
+                classes = classDao.searchTeacherClasses(loggedUser.getId(), search);
+            } else {
+                classes = classDao.getTeacherClasses(loggedUser.getId());
+            }
 
             int size = getPaginationSize(classes);
             int page = getPaginationPage(request, size);
@@ -68,7 +85,15 @@ public class GetController {
     @GetMapping("/tasks")
     public String tasksGet(HttpSession session, HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        List<Task> tasks = classDao.getClassTasks(id);
+        String search = request.getParameter("search");
+
+        List<Task> tasks;
+
+        if (search != null && !search.trim().equals("")) {
+            tasks = taskDao.searchByName(search);
+        } else {
+            tasks = classDao.getClassTasks(id);
+        }
 
         int size = getPaginationSize(tasks);
         int page = getPaginationPage(request, size);
@@ -86,7 +111,15 @@ public class GetController {
     @GetMapping("/students")
     public String studentsGet(HttpSession session, HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        List<User> students = classDao.getClassStudents(id);
+        String search = request.getParameter("search");
+
+        List<User> students;
+
+        if (search != null && !search.trim().equals("")) {
+            students = userDao.searchByEmailInClass(search, id);
+        } else {
+            students = classDao.getClassStudents(id);
+        }
 
         int size = getPaginationSize(students);
         int page = getPaginationPage(request, size);
